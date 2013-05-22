@@ -1,0 +1,27 @@
+Hello All :)
+
+So here it is, the first release of the the-sh shell ! As of now, this is a pretty ordinary shell with no support for subroutine calls
+The loops and conditional statements can have a depth of atmost 1 
+
+FEATURES: 
+
+1) internal commands :
+		
+		exit : does what it is supposed to do :P
+		cd : do i need to tell what this does??
+		export : export in jash can only export strings, (not integers). (jash supports 2 types of variables: strings and integers)
+			syntax: export var
+			
+		print : prints value of jash on stdout
+			syntax: print var
+		
+2) variables :
+		
+		syntax: 
+		var = "string"
+		var1 = ( 8 + ( var2 * 9 ) ) 
+		.......and the like
+		(NOTE: string concatenation is not supported as of now)
+		
+		
+//support for integers in this version would not really be effective because of absense of loops and all...but nevertheless, it there :)

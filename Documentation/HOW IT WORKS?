@@ -1,0 +1,45 @@
+There are 2 modes of running the-sh.
+1) interatctive ( user enters commands, and they get executed)
+2) scripts (user writes a file containing a program in the-sh syntax)
+
+In the first case, the program runs in a infinite loop. Here is a sequence of events
+1) user enters command
+2) a parser parses the input string and prepares a linked list of (struct arg) where each element of the structure contains the name 	of a argument.  for example: 
+	ls -l -a
+	this string would be parsed and a linked list of length 2 would be prepared.
+
+struct arg
+	{
+	struct arg* next;
+	char* string;
+	};
+	
+The head of the linked list would represent that command.
+NOTE: typedef struct arg* Command
+
+3) the command is executed by making a call to the function : void execute(Command cmd)
+	A lot of things happen behind the scene while executing the cmd. the-sh has 2 types of commands, internal and external. For executing internal commands, no forking is needed. examples: cd, exit, print, itos, stoi. The code corresponding to these commands are infact functions inside the the-sh source code.
+	For executing external commands, the-sh forks a child and converts that child into a new program using exec family of functions.
+While executing a command, the-sh first checks whether it is an internal command or not. It does so by comparing the first argument of the command with all the internal commands. This is implemented using functions of the form "int is_command (Command cmd)"
+example,
+is_cd(Command cmd) checks whether the first argument of cmd is equal to "cd"
+is_print(Command cmd) checks whether the first argument of cmd is equal to "print" etc.
+The parent function where all these functions are called is the "int is_internal(Command cmd)" function.
+
+All these functions return 1 in case the answer is false, and returns 0 if answer is true, and executes the corressponding functionality.
+
+Suppose the Command is not internal, ie, is_internal returns 1, then the Command is assumed to be external, and the function is_external is called. In this function, a child process is spawned and an image of the external command(if it exists) is loaded in the child, (using exec). If the external program exists, is_external executes it and returns 0. If it does not exist, is_external returns 1.
+
+Note that is_external and is_internal functions are called in the function "execute(Command cmd)".
+The functions is_resolve, and is_redirect are called inside the function is_external. 
+is_resolve simply replaces all occurences of $var with the actual value of the var (variable). is_resolve does not make any changes to the actual command; instead, it first copies the entire Command (the linked list) into a new new linked list and makes changes in the new Command. (the copying is done so that the original command is not changed when it is in a loop)
+
+is_redirect function checks for occurences of symbols '|' or '>' or '<'
+is_redirect takes as inpur 3 integer pointers. These three integers corresspond to 
+1) file descriptor of stdout
+2) file descriptor of stdin
+3) number of '|' symbols.
+
+If there are no occurrences of '>' or '<', the vaues 0,1 are stored in stdin and stdout respectively.
+After this function is called inside is_external, we know the stdout, stdin of the new process to be spawned. We also know whether we need to spawn multiple processes in case the '|' symbol appears in the command. 
+

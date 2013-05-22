@@ -1,0 +1,49 @@
+Variables
+
+
+	the-sh supports 2 kinds of variables, numbers and strings.
+	
+	syntax: x = ( 78 )
+			x = "anything"  ("anything" should not have spaces)
+	assignments like..
+			x = ( x + y )
+			x = ( x + ( x * 5 ) ) also work
+			
+
+functions operating on variable:
+
+1) print var
+	prints out the type of variable ( string or number ) and also its value
+	if no argument is given to print, then all the variables in the global variable list are printed out
+	
+2) export var
+	it does what it says !
+	PS: export only operates on string type variables and not on number type variables.
+	
+3) itos var
+	converts a variable from integer type to string type
+
+4) stoi var
+	converts a variable from string type to integer type
+	
+5) external_command $var
+	example:	prog = "main.c"
+				flag = "-Wall"
+				gcc $prog $flag -o main.o
+				
+				
+				
+Internals:
+
+basically, whenever the expression followed by = sign is something enclosed in brackets, the-sh evaluates the expression using a stack.
+Internally, every variable is represented as a structure in a global linked list (var_list). This structure has 3 fields,
+
+struct variable
+{
+char* name;
+char* string;
+int value;
+struct variable* next;
+};
+
+When a variable is being assigned, (either as a string or as number), the var_list is checked. If an entry for the same name is found, the fields of that structure are modified. If no entry is found, a new variable structure is malloced and added to the var_list. A number variable has its char* string as a empty string. This is precisely what tells whether a variable is of number type of string type.

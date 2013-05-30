@@ -2,28 +2,34 @@
 the-sh
 ######
 
-So here it is, the first release of the the-sh shell ! As of now, this is a pretty ordinary shell 
+the-sh is a minimal shell written out of curiousity, in order to understand how shells work. The goal is not to write a complete shell; but to write a shell with which you can spend an ordinary day without getting frustrated. The only features which I intend to add are
 
-FEATURES: 
+- tab completition
+- command history (arrow keys and reverse search)
+- neat, colored prompt
+- pipes, IO redirection
 
-1) internal commands :
+(these are almost all the features that I usually use)
+
+
+Hopefully, this would serve a dual purpose: 
+- act as a tutorial for students who want to understand how a shell works
+- a shell I would be using on a regular basis
+
+--------
+Features: 
+--------
+
+* internal commands :
 		
-		exit : does what it is supposed to do :P
-		cd : do i need to tell what this does??
-		export : export in jash can only export strings, (not integers). (jash supports 2 types of variables: strings and integers)
-			syntax: export var
-			
-		print : prints value of jash on stdout
-			syntax: print var
+-		exit : does what it is supposed to do!
+-		cd : do i need to tell what this does??
+-		export : add a variable in the exvironment variable list
+-		print : prints value of a variable on stdout
 		
-2) variables :
+* variables :
 		
-    Variables can only be strings
 		syntax: 
 		var = "string"
-		var1 = ( 8 + ( var2 * 9 ) ) 
-		.......and the like
-		(NOTE: string concatenation is not supported as of now)
 		
 		
-//support for integers in this version would not really be effective because of absense of loops and all...but nevertheless, it there :)

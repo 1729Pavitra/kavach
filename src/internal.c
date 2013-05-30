@@ -27,25 +27,9 @@ int return_value=1;
 	if(return_value == 1) {
 	return_value = is_export(cmd);
 	}
-	if(return_value == 1) {
-	return_value = is_if(cmd);
-	}
-	if(return_value == 1) {
-	return_value = is_itos(cmd);
-	}
-	if(return_value == 1) {
-	return_value = is_stoi(cmd);
-	}	
-	if(return_value == 1) {
-	return_value = is_while(cmd);
-	}	
 //	if(return_value == 1) {
 //	return_value = is_show(cmd);
 //	}	
-
-	if(return_value == 1) {
-	return_value = is_end(cmd);
-	}	
 
 return return_value;
 }

@@ -1,6 +1,5 @@
 #include"cmd.h"
 #include"variable.h"
-#include"stack.h"
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
@@ -43,10 +42,8 @@ int is_variable_assignment(Command cmd)
 			struct variable* v = search_variable(cmd->string);
 			if(cmd->next->next->string[0]!='"') {
 				if(v==NULL) {
-					int value= evaluate_expression(cmd->next->next);
 					struct variable* v = malloc(sizeof(struct variable));
 					v->string = "";
-					v->value = value;
 					v->next = var_list;
 					v->name = malloc(sizeof(strlen(cmd->string)+1));
 					strcpy(v->name,cmd->string);
@@ -54,8 +51,6 @@ int is_variable_assignment(Command cmd)
 					return 0;
 				}
 				else {
-					int value = evaluate_expression(cmd->next->next);
-					v->value = value;
 					v->string = "";
 					return 0;
 				}
@@ -66,7 +61,6 @@ int is_variable_assignment(Command cmd)
 					v->string = malloc(strlen(cmd->next->next->string)+1);
 					strcpy(v->string,cmd->next->next->string + 1);
 					v->string[strlen(cmd->next->next->string)-2] = '\0';
-					v->value = 0;
 					v->next = var_list;
 					v->name = malloc(sizeof(strlen(cmd->string)+1));
 					strcpy(v->name,cmd->string);
@@ -107,14 +101,8 @@ int is_print(Command cmd)
 			struct variable* p = var_list;
 			while(p!=NULL) {			
 
-				//printf("%s	%d\n",(char*)p->name,p->value);
-				if(!strcmp(p->string,"")) {
-					printf("number::    %s::    %d\n",p->name,p->value);					
-				}
-				else{
-					printf("string::    %s::    %s\n",p->name,p->string);
+					printf("%s ::%s \n",p->name,p->string);
 					flag = 1;
-				}
 
 				p = p->next;		
 			}
@@ -124,16 +112,8 @@ int is_print(Command cmd)
 			struct variable* p = var_list;
 			while(p!=NULL) {
 				if(!strcmp(p->name,cmd->next->string)) {
-					if(!strcmp(p->string,"")) {
-						printf("number: %d\n",p->value);
+						printf("%s\n",p->string);
 						flag = 1;
-
-
-					}
-					else{
-						printf("string: %s\n",p->string);
-						flag = 1;
-					}
 				}
 				p = p->next;		
 			}
@@ -244,16 +224,8 @@ Command resolve_cmd(Command cmd_in)
 				}
 			}
 			else {
-				if(!strcmp(v->string,"")) {			
-					v->string = itos(v->value);
 					l->string = realloc(l->string,strlen(v->string)+1);
 					strcpy(l->string,v->string);
-					strcpy(v->string,"");
-				}
-				else{
-					l->string = realloc(l->string,strlen(v->string)+1);
-					strcpy(l->string,v->string);
-				}
 			}
 		}
 
@@ -282,7 +254,6 @@ int is_itos(Command cmd)
 		while(v!=NULL) {
 			if(!strcmp(cmd->next->string,v->name)){
 				//free(v->string);
-				v->string = itos(v->value);
 				flag=1;
 			}
 			v=v->next;				
@@ -313,7 +284,6 @@ int is_stoi(Command cmd)
 		struct variable*v = var_list;
 		while(v!=NULL) {
 			if(!strcmp(cmd->next->string,v->name)) {
-				v->value = atoi(v->string);
 				strcpy(v->string,""); 
 				flag=1;
 			}

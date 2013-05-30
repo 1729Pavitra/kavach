@@ -18,7 +18,7 @@ The head of the linked list would represent that command.
 NOTE: typedef struct arg* Command
 
 3) the command is executed by making a call to the function : void execute(Command cmd)
-	A lot of things happen behind the scene while executing the cmd. the-sh has 2 types of commands, internal and external. For executing internal commands, no forking is needed. examples: cd, exit, print, itos, stoi. The code corresponding to these commands are infact functions inside the the-sh source code.
+	A lot of things happen behind the scene while executing the cmd. the-sh has 2 types of commands, internal and external. For executing internal commands, no forking is needed. examples: cd, exit, print. The code corresponding to these commands are infact functions inside the the-sh source code.
 	For executing external commands, the-sh forks a child and converts that child into a new program using exec family of functions.
 While executing a command, the-sh first checks whether it is an internal command or not. It does so by comparing the first argument of the command with all the internal commands. This is implemented using functions of the form "int is_command (Command cmd)"
 example,

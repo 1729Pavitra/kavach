@@ -45,27 +45,7 @@ char cmd_string[MAXCMDLEN+1];
 
 			Command cmd =  parse(cmd_string);
 	
-
-			if(!strcmp(cmd->string,"end")) {
 			execute(cmd);
-			}
-			if(cmd_push_status==0){
-			execute(cmd);			
-			}
-
-			//cleaning up
-			if(cmd_push_status==0) {
-			free_command(cmd);
-			}
-			else {
-				if(strcmp(cmd->string,"while") && strcmp(cmd->string,"end") && strcmp(cmd->string,"if")) {
-				push_cmd(cmd);
-				}
-			}
-			if(cmd_push_status == 2 ) {
-			cmd_push_status = 0;
-			}
-
 		}
 	
 	}
@@ -79,26 +59,8 @@ char cmd_string[MAXCMDLEN+1];
 			if(!strcmp(cmd->string,"end")) {
 			execute(cmd);
 			}
-			
 						
-			if(cmd_push_status==0){
 			execute(cmd);			
-			}
-		//cleaning up
-			if(cmd_push_status==0){
-			free_command(cmd);
-			}
-			else {
-				if(strcmp(cmd->string,"while") && strcmp(cmd->string,"end") && strcmp(cmd->string,"if")) {
-				push_cmd(cmd);
-				}			
-			}
-			
-			if(cmd_push_status == 2 ) {
-			cmd_push_status = 0;
-			}
-
-		//display prompt on terminal
 			display_prompt(current_dir);	
 		}
 	}	

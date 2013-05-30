@@ -1,7 +1,8 @@
-Hello All :)
+######
+the-sh
+######
 
-So here it is, the first release of the the-sh shell ! As of now, this is a pretty ordinary shell with no support for subroutine calls
-The loops and conditional statements can have a depth of atmost 1 
+So here it is, the first release of the the-sh shell ! As of now, this is a pretty ordinary shell 
 
 FEATURES: 
 
@@ -17,6 +18,7 @@ FEATURES:
 		
 2) variables :
 		
+    Variables can only be strings
 		syntax: 
 		var = "string"
 		var1 = ( 8 + ( var2 * 9 ) ) 

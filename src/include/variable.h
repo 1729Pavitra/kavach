@@ -1,3 +1,5 @@
+#ifndef VARIABLE_H
+#define VARIABLE_H
 
 struct variable
 {
@@ -10,4 +12,4 @@ void print(char* variable_name);
 
 struct variable* search_variable(char* var_name);
 
-
+#endif

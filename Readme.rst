@@ -2,23 +2,13 @@
 the-sh
 ######
 
-the-sh is a minimal shell written out of curiousity, in order to understand how shells work. The goal is not to write a complete shell; but to write a shell with which you can spend an ordinary day without getting frustrated. The only features which I intend to add are
+the-sh is a minimal shell written out of curiousity, in order to understand how shells work. The goal is not to write a complete shell; but to write an educational shell with which you can spend a day or two. The only features which I intend to add are
 
-- tab completition
-- command history (arrow keys and reverse search)
-- neat, colored prompt
-- pipes, IO redirection
+Hopefully, the-sh would serve as a tutorial for students who want to understand how a shell works
 
-(these are almost all the features that I usually use)
-
-
-Hopefully, this would serve a dual purpose: 
-- act as a tutorial for students who want to understand how a shell works
-- a shell I would be using on a regular basis
-
---------
+---------
 Features: 
---------
+---------
 
 * internal commands :
 		
@@ -27,9 +17,12 @@ Features:
 -		export : add a variable in the exvironment variable list
 -		print : prints value of a variable on stdout
 		
-* variables :
-		
-		syntax: 
-		var = "string"
-		
-		
+
+Minimal Support for variables is available (for exporting them)
+
+-       X = "some_value"
+-       export X
+
+Minimal Support for IO redirection is available
+
+-       echo "hello" > a.txt

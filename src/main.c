@@ -37,7 +37,7 @@ char cmd_string[MAXCMDLEN+1];
 		perror("could not open the script file\n");
 		exit(EXIT_FAILURE);
 		}
-		//ignore first line #!/bin/jash
+		//ignore first line #!/bin/the-sh
 		fgets(cmd_string,MAXLEN_STR,f);
 
 		while(fgets(cmd_string,MAXLEN_STR,f)!=NULL) {

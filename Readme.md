@@ -23,4 +23,6 @@ Minimal Support for variables is available (for exporting them)
 
 Minimal Support for IO redirection is available
 
-> echo "hello" > a.txt
+>  echo "hello" > a.txt
+
+Ofcourse, all the external commands work (ls, vim ..), and you can invoke programs using the shell.

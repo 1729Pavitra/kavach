@@ -8,7 +8,7 @@ Hopefully, the-sh would serve as a tutorial for students who want to understand 
 Features: 
 ---------
 
-# internal commands :
+Internal commands:
 		
 > 1. exit : does what it is supposed to do!
 > 2. cd : do i need to tell what this does??
@@ -18,9 +18,9 @@ Features:
 
 Minimal Support for variables is available (for exporting them)
 
-X = "some_value"
-export X
+> X = "some_value"
+> export X
 
 Minimal Support for IO redirection is available
 
-echo "hello" > a.txt
+> echo "hello" > a.txt

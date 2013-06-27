@@ -18,7 +18,7 @@ Internal commands:
 
 Minimal Support for variables is available (for exporting them)
 
-> X = "some_value"
+> X = "some_value"  
 > export X
 
 Minimal Support for IO redirection is available

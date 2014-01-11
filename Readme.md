@@ -1,12 +1,12 @@
-##The-sh
+# The-sh
 
 **the-sh** is a minimal shell written out of pure curiousity, in order to understand how shells work internally. The goal is not to write a complete shell; but to write an educational shell.
 
 Hopefully, **the-sh** would serve as a tutorial for someone who wants to understand how shells work.
 
-###Installation
+## Installation
 
-The source is available at [http://github.com/anayjoshi/snake](http://github.com/anayjoshi/snake)
+The source is available at [http://github.com/anayjoshi/the-sh](http://github.com/anayjoshi/the-sh)
 
 To run the shell without installing it on your system:
 

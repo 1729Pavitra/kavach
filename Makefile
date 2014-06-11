@@ -1,4 +1,4 @@
-TARGET = the-sh
+TARGET = kavach
 INSTALL_PATH = /usr/bin
 CC=gcc
 INCLUDE_DIR=src/include
@@ -13,7 +13,7 @@ SOURCES = src/main.c src/built_in.c src/command_list.c src/execute.c src/externa
 OBJECTS = $(subst .c,.o,$(SOURCES))
 
 $(TARGET): $(OBJECTS)
-	$(CC) $(OBJECTS) -o the-sh
+	$(CC) $(OBJECTS) -o kavach
 	
 %.o : %.c
 	$(CC) -I $(INCLUDE_DIR) -c $< -o $@

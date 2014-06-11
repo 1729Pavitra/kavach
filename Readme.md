@@ -1,32 +1,32 @@
-# The-sh
+# Kavach
 
-**the-sh** is a minimal shell written out of pure curiousity, in order to understand how shells work internally. The goal is not to write a complete shell; but to write an educational shell.
+**kavach** is a minimal shell written out of pure curiousity, in order to understand how shells work internally. The goal is not to write a complete shell; but to write an educational shell.
 
-Hopefully, **the-sh** would serve as a tutorial for someone who wants to understand how shells work.
+Hopefully, **kavach** would serve as a tutorial for someone who wants to understand how shells work.
 
 ## Installation
 
-The source is available at [http://github.com/anayjoshi/the-sh](http://github.com/anayjoshi/the-sh)
+The source is available at [http://github.com/anayjoshi/kavach](http://github.com/anayjoshi/kavach)
 
 To run the shell without installing it on your system:
 
 ```
-$ git clone http://github.com/anayjoshi/the-sh
-$ cd the-sh
+$ git clone http://github.com/anayjoshi/kavach
+$ cd kavach
 $ make
-$ ./the-sh
+$ ./kavach
 ```
 
-To install **the-sh**, execute
+To install **kavach**, execute
 
 ```
 $ sudo make install
 ```
 
-You can also uninstall **the-sh**:
+You can also uninstall **kavach**:
 
 ```
 $ sudo make uninstall
 ```
 
-Refer to the wiki for understanding internals of the-sh :)
+Refer to the wiki for understanding internals of kavach :)

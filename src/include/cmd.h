@@ -2,10 +2,10 @@
 #define CMD_H
 
 struct arg
-	{
+{
 	struct arg* next;
 	char* string;
-	};
+};
 
 typedef struct arg* Command;
 
@@ -33,9 +33,9 @@ Command resolve_cmd(Command cmd_in);
 
 struct cmd_list_element
 {
-Command cmd;
-struct cmd_list_element* next;
-struct cmd_list_element* prev;
+    Command cmd;
+    struct cmd_list_element* next;
+    struct cmd_list_element* prev;
 };
 
 typedef struct cmd_list_element* List;

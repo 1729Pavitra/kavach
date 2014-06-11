@@ -1,8 +1,8 @@
-#include"cmd.h"
-#include<string.h>
-#include<stdio.h>
-#include<stdlib.h>
-#include"macros.h"
+#include "cmd.h"
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "macros.h"
 
 /*
 This function is used inside parse function(see below) to create a 'struct arg' for a particular argument 
@@ -14,7 +14,8 @@ this command takes as input a string which is to be executed, and then creates a
 This funtion then returns a pointer to the head of the linked list. This pointer now symbolizes a command.
 */
 
-Command parse(char* cmd_string) {
+Command parse(char* cmd_string) 
+{
 
 	char word[MAXARGLEN];
 	unsigned long len = strlen(cmd_string);
@@ -25,18 +26,22 @@ Command parse(char* cmd_string) {
 	
 	Command cmd;
 	
-	while(i<len) {
+	while(i<len) 
+    {
 		
-		if(cmd_string[i]==32) {
+		if(cmd_string[i]==32) 
+        {
 			word[j]='\0';
 			j=0;
 			i=i+1;
-			if(flag == 0) {
+			if(flag == 0) 
+            {
 				flag = 1;
 				c = construct_argument(strlen(word),word); 
 				cmd = c;				
 			}
-			else {
+			else 
+            {
 				d =	construct_argument(strlen(word),word);
 				c->next = d;
 				c = d;
@@ -44,13 +49,16 @@ Command parse(char* cmd_string) {
 			// create new structure to hold argument
 
 		}
-		if(cmd_string[i]=='\n') {
+		if(cmd_string[i]=='\n') 
+        {
 			word[j]='\0';
-			if(flag == 0) {
+			if(flag == 0) 
+            {
 				c = construct_argument(strlen(word),word); 
 				cmd = c;	
 			}
-			else {
+			else 
+            {
 				d =	construct_argument(strlen(word),word);
 				c->next = d;
 				c = d;
@@ -65,18 +73,18 @@ Command parse(char* cmd_string) {
 		i=i+1;
 	}
 	
-return cmd;
+    return cmd;
 }
 
 
 struct arg* construct_argument(int size,char* string) 
 {
-struct arg* p = malloc(sizeof(struct arg));
-char* string_pointer = malloc(size+1);
-p->string = string_pointer;
-strcpy(p->string,string);
-p->next = NULL;
-return p;
+    struct arg* p = malloc(sizeof(struct arg));
+    char* string_pointer = malloc(size+1);
+    p->string = string_pointer;
+    strcpy(p->string,string);
+    p->next = NULL;
+    return p;
 }
 
 /*
@@ -88,10 +96,11 @@ int command_length(Command cmd)
 {
 	int len = 0;
 	struct arg* p = cmd;
-	while(p!=NULL) {
-	len = len+1;
-	p = p->next;
+	while(p!=NULL) 
+    {
+        len = len+1;
+        p = p->next;
 	}
-return len;
+    return len;
 }
 

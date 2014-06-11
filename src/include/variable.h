@@ -3,9 +3,9 @@
 
 struct variable
 {
-char* name;
-char* string;
-struct variable* next;
+    char* name;
+    char* string;
+    struct variable* next;
 };
 
 void print(char* variable_name);

@@ -8,8 +8,6 @@ struct variable
     struct variable* next;
 };
 
-void print(char* variable_name);
-
 struct variable* search_variable(char* var_name);
 
 #endif

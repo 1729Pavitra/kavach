@@ -11,13 +11,11 @@ struct variable* search_variable(char* var_name)
 {
     extern struct variable* var_list;
     struct variable* p = var_list;
-    int flag = 0;
-    while(p!=NULL) 
+    while(p != NULL) 
     {
-        if(!strcmp(p->name,var_name)) 
+        if(!strcmp(p->name, var_name)) 
         {
             return p;
-            flag = 1;
         }
         p = p->next;        
     }
@@ -42,113 +40,39 @@ int is_variable_assignment(Command cmd)
     {
         if(!strcmp(cmd->next->string,"=")) 
         {
-
             struct variable* v = search_variable(cmd->string);
-            if(cmd->next->next->string[0]!='"') 
+            if(cmd->next->next->string[0] == '"') 
             {
-                if(v==NULL) 
+                if(v == NULL) 
                 {
                     struct variable* v = malloc(sizeof(struct variable));
-                    v->string = "";
+                    v->string = malloc(strlen(cmd->next->next->string) + 1);
+                    strcpy(v->string, cmd->next->next->string + 1);
+                    v->string[strlen(cmd->next->next->string) - 2] = '\0';
                     v->next = var_list;
-                    v->name = malloc(sizeof(strlen(cmd->string)+1));
-                    strcpy(v->name,cmd->string);
+                    v->name = malloc(sizeof(strlen(cmd->string) + 1));
+                    strcpy(v->name, cmd->string);
                     var_list = v;
                     return 0;
                 }
                 else 
                 {
-                    v->string = "";
-                    return 0;
-                }
-            }
-            else 
-            {
-                if(v==NULL) 
-                {
-                    struct variable* v = malloc(sizeof(struct variable));
-                    v->string = malloc(strlen(cmd->next->next->string)+1);
+                    v->string = malloc(sizeof(strlen(cmd->next->next->string) + 1));
                     strcpy(v->string,cmd->next->next->string + 1);
-                    v->string[strlen(cmd->next->next->string)-2] = '\0';
-                    v->next = var_list;
-                    v->name = malloc(sizeof(strlen(cmd->string)+1));
-                    strcpy(v->name,cmd->string);
-                    var_list = v;
-                    return 0;
-                }
-                else 
-                {
-                    v->string = malloc(sizeof(strlen(cmd->next->next->string)+1));
-                    strcpy(v->string,cmd->next->next->string + 1);
-                    v->string[strlen(cmd->next->next->string)-2] = '\0';
-
+                    v->string[strlen(cmd->next->next->string) - 2] = '\0';
                     return 0;
                 }       
             }           
+            else
+            {
+                return 1;
+            }
         }
         else 
         {
             return 1;
         }   
     }   
-    else 
-    {
-        return 1;
-    }
-}
-
-/*
-this function is used to implement "print var" command
-*/
-
-
-int is_print(Command cmd)
-{
-    if(!strcmp(cmd->string,"print")) 
-    {
-        extern struct variable* var_list;
-        int flag = 0;
-
-        if(cmd->next==NULL) 
-        {
-            struct variable* p = var_list;
-            
-            while(p!=NULL) 
-            {
-                printf("%s ::%s \n",p->name,p->string);
-                flag = 1;
-                p = p->next;        
-            }
-            return 0;
-        }
-        else 
-        {
-            struct variable* p = var_list;
-            while(p!=NULL) 
-            {
-                if(!strcmp(p->name,cmd->next->string)) 
-                {
-                    printf("%s\n",p->string);
-                    flag = 1;
-                }
-                p = p->next;        
-            }
-            if (flag==0) 
-            {
-                char* env = getenv(cmd->next->string);
-                
-                if(env==NULL) 
-                {
-                    printf("no such variable..... : %s\n",cmd->next->string);
-                }
-                else 
-                {
-                    printf("%s\n",env);
-                }
-            }
-            return 0;
-        }
-    }
     else 
     {
         return 1;
@@ -197,49 +121,15 @@ int is_export(Command cmd)
     }
 }
 
-/*
-used inside resolve_command. It simpy prepares a copy of the input command and returns the copy.
-*/
-
-Command copy_command(Command cmd_in)
-{
-    Command cmd_out=NULL;
-    int flag = 0;
-    struct arg* c = cmd_in;
-    struct arg* dprev;
-    while (c!=NULL) 
-    {
-        struct arg* d = malloc(sizeof (struct arg));
-        char* s = malloc(strlen(c->string)+1);
-        strcpy(s,c->string);
-        d->string = s;
-        if(flag==0) 
-        {
-            cmd_out = d;
-            flag = 1;
-        }
-        else 
-        {
-            dprev->next = d;
-        }
-        d->next = NULL;
-        dprev = d;
-        c = c->next;
-    }
-    return cmd_out;
-
-}
 
 /*
-This function first copies the entire command into a new command (by making a call to copy_command, so that the original command is pushed "as is" in the command_list, (in case this command is inside a nest)
 this function then checks for occurences of the symbol $ in the copied command. If $ is found, then the string followinf $ is searched as a variable name. If a variable with the same name is found, then the $var is replaced with the value of var (number or string). Note that only external commands use this function.
 */
 
 Command resolve_cmd(Command cmd_in)
 {
-    Command cmd_out = copy_command(cmd_in);
     extern struct variable* var_list;
-    struct arg* l = cmd_out;
+    struct arg* l = cmd_in;
     while(l!=NULL) 
     {
         if(l->string[0]=='$') 
@@ -267,7 +157,7 @@ Command resolve_cmd(Command cmd_in)
 
         l=l->next;
     }
-    return cmd_out;
+    return cmd_in;
 }
 
 

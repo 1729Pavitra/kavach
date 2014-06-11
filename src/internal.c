@@ -27,10 +27,6 @@ int is_internal(Command cmd)
 	}
 	if(return_value == 1) 
     {
-        return_value = is_print(cmd);
-	}
-	if(return_value == 1) 
-    {
         return_value = is_export(cmd);
 	}
 //	if(return_value == 1) {

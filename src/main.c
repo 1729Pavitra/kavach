@@ -1,3 +1,10 @@
+/* 
+ * main.c
+ * Author: Anaykumar Joshi
+ *
+ * This file implements the main() function. 
+ *
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include "macros.h"
@@ -5,23 +12,14 @@
 #include "prompt.h"
 #include "variable.h"
 
+/* a global variable which stores the current directory name */
+char current_dir[MAXDIRLEN] = ""; 
 
-char current_dir[MAXDIRLEN] = ""; // a global variable which stores the current directory name
-int latest_status; // local exit status of the latest operation performed
-struct variable* var_list; //holds the variables defined by user (strings and integers)
-int cmd_push_status; //if cmd_string_status is 0, dont execute next command...(used in implementing conditional jumps and loops
-List command_list; // used when we encounter commands like if..else, while
-struct Block* tree; // the entire nested parent block is a tree
-struct cmd_list_element* cmd_present;
-int nested;
-
+/* holds the variables defined by user */
+struct variable* var_list; 
 
 int main(int argc,char** argv)
 {
-    nested = 0;
-    tree = NULL;
-    cmd_push_status = 0;
-    command_list = NULL;
     var_list = NULL;
     
     if(argc==1) 

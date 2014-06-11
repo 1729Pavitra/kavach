@@ -12,6 +12,8 @@ Contents:
    :maxdepth: 2
 
 
+Kavach is a tiny shell which was initially built out of my curiousity for understanding how shells work. Realizing that the utility of this particularl shell is not that great for practical use, I plan to make an extended tutorial for others to understand shells better.
+
 
 Indices and tables
 ==================

@@ -1,4 +1,4 @@
-#include "cmd.h"
+#include "command.h"
 #include "macros.h"
 #include <unistd.h>
 #include <sys/types.h>
@@ -8,7 +8,7 @@
 #include "variable.h"
 
 
-void print_command(Command cmd) 
+void print_command(command_t cmd) 
 {
     struct arg* p = cmd;
     while(p!=NULL) 
@@ -21,7 +21,7 @@ void print_command(Command cmd)
 }
 
 
-int local_exec(Command cmd,int fd_in,int fd_out)
+int local_exec(command_t cmd,int fd_in,int fd_out)
 {
 
 
@@ -95,10 +95,10 @@ int local_exec(Command cmd,int fd_in,int fd_out)
 }
 
 
-int is_external(Command cmd_in)
+int is_external(command_t cmd_in)
 {
 
-    Command cmd = resolve_cmd(cmd_in);
+    command_t cmd = resolve_cmd(cmd_in);
 
     int fd_in=0;
     int fd_out=1;
@@ -122,7 +122,7 @@ int is_external(Command cmd_in)
     else 
     {
 
-        Command c[npipes+1];
+        command_t c[npipes+1];
         c[0]=cmd;
         int i=0;
         int j=npipes;

@@ -1,4 +1,4 @@
-#include "cmd.h"
+#include "command.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,11 +10,11 @@ This function is used inside parse function(see below) to create a 'struct arg' 
 struct arg* construct_argument(int size,char* string) ;
 
 /*
-this command takes as input a string which is to be executed, and then creates a linked list of (struct arg). Note that Command is typedef struct arg*
+this command takes as input a string which is to be executed, and then creates a linked list of (struct arg). Note that command_t is typedef struct arg*
 This funtion then returns a pointer to the head of the linked list. This pointer now symbolizes a command.
 */
 
-Command parse(char* cmd_string) 
+command_t parse(char* cmd_string) 
 {
 
 	char word[MAXARGLEN];
@@ -24,7 +24,7 @@ Command parse(char* cmd_string)
 	int flag = 0; // first argument or not
 	struct arg *c,*d; //helpers
 	
-	Command cmd;
+	command_t cmd;
 	
 	while(i<len) 
     {
@@ -88,11 +88,11 @@ struct arg* construct_argument(int size,char* string)
 }
 
 /*
-command_length returns the number of number of arguments in the Command.
+command_length returns the number of number of arguments in the command_t.
 */
 
 
-int command_length(Command cmd)
+int command_length(command_t cmd)
 {
 	int len = 0;
 	struct arg* p = cmd;

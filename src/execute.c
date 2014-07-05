@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include "cmd.h"
+#include "command.h"
 
-void execute(Command cmd) 
+void execute(command_t cmd) 
 {
 	int status  = is_internal(cmd);
 	if(status == 1) 

@@ -1,4 +1,4 @@
-#include "cmd.h"
+#include "command.h"
 #include "variable.h"
 #include <stdio.h>
 #include <string.h>
@@ -30,7 +30,7 @@ This function searches the var_list and if it finds exiting variable with the sa
 */
 
 
-int is_variable_assignment(Command cmd)
+int is_variable_assignment(command_t cmd)
 {
 
     extern struct variable* var_list;   
@@ -84,7 +84,7 @@ this function is used to implement "export var" command
 */
 
 
-int is_export(Command cmd)
+int is_export(command_t cmd)
 {
     if(!strcmp(cmd->string,"export")) 
     {
@@ -126,7 +126,7 @@ int is_export(Command cmd)
 this function then checks for occurences of the symbol $ in the copied command. If $ is found, then the string followinf $ is searched as a variable name. If a variable with the same name is found, then the $var is replaced with the value of var (number or string). Note that only external commands use this function.
 */
 
-Command resolve_cmd(Command cmd_in)
+command_t resolve_cmd(command_t cmd_in)
 {
     extern struct variable* var_list;
     struct arg* l = cmd_in;

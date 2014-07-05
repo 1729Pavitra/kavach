@@ -1,9 +1,9 @@
-#include "cmd.h"
+#include "command.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 
-void free_command(Command cmd)
+void free_command(command_t cmd)
 {
     struct arg* p=cmd;
     struct arg* q;

@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "macros.h"
-#include "cmd.h"
+#include "command.h"
 #include "prompt.h"
 #include "variable.h"
 
@@ -43,7 +43,7 @@ int main(int argc,char** argv)
 
         while(fgets(cmd_string,MAXLEN_STR,f)!=NULL) 
         {
-            Command cmd =  parse(cmd_string);
+            command_t cmd =  parse(cmd_string);
             execute(cmd);
         }
     }
@@ -52,7 +52,7 @@ int main(int argc,char** argv)
         while(1) 
         {
             fgets(cmd_string,MAXLEN_STR,stdin);
-            Command cmd =  parse(cmd_string);
+            command_t cmd =  parse(cmd_string);
             
             if(!strcmp(cmd->string,"end")) 
             {

@@ -1,10 +1,10 @@
-#include"cmd.h"
+#include"command.h"
 #include<stdio.h>
 #include<stdlib.h>
 #include<sys/types.h>
 #include<fcntl.h>
 
-void is_redirect(Command cmd,int* fd_in,int* fd_out,int *npipes ) 
+void is_redirect(command_t cmd,int* fd_in,int* fd_out,int *npipes ) 
 {
 
 	struct arg* c = cmd;

@@ -3,9 +3,10 @@
 #include"macros.h"
 #include<stdlib.h>
 #include<string.h>
+
 extern char current_dir[MAXLEN_STR];
 
-void display_prompt(char* current_dir) 
+void display_prompt() 
 {
 	
 	if(strcmp(current_dir,"")==0) 

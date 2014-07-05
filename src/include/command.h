@@ -42,9 +42,7 @@ typedef struct cmd_list_element* List;
 
 void cmd_push(struct cmd_list_element* c);
 
-void pop_free_cmd();
 
-void print_command(command_t cmd);
 
 
 #endif

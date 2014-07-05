@@ -1,15 +1,21 @@
 #include "command.h"
+#include "macros.h"
 #include "variable.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-/*
-this function is not exposed to the user. It searches the var_list for a variable name and returns the pointer to the structure of the variable( if found), else, returns a NULL pointer
- */
 
+extern struct variable* var_list;   
+
+/**
+ * @brief Seaches for the variable with the given name
+ *
+ * @param var_name The name of the variable to be searched
+ *
+ * @return the variable structure if found, else None
+ */
 struct variable* search_variable(char* var_name)
 {
-    extern struct variable* var_list;
     struct variable* p = var_list;
     while(p != NULL) 
     {
@@ -23,17 +29,22 @@ struct variable* search_variable(char* var_name)
 }
 
 /*
-is_variable_assignment is called when the user command is of the form
-var = something
-(provided var is not an internal or external command)
-This function searches the var_list and if it finds exiting variable with the same name, then the corresponding structure of the variable is updated; else, a new variable structure is created and is added to varlist
 */
 
 
+/**
+ * @brief is_variable_assignment is called when the user command is of the form var = something
+ * (provided var is not an internal or external command)
+ * This function searches the var_list and if it finds exiting variable with the same name, 
+ * then the corresponding structure of the variable is updated; 
+ * else, a new variable structure is created and is added to varlist
+ *
+ * @param cmd The command being processed
+ *
+ * @return YES, if cmd is indeed of the form 'x = something'; else NO
+ */
 int is_variable_assignment(command_t cmd)
 {
-
-    extern struct variable* var_list;   
     int len = command_length(cmd);
 
     if(len > 2) 
@@ -53,51 +64,57 @@ int is_variable_assignment(command_t cmd)
                     v->name = malloc(sizeof(strlen(cmd->string) + 1));
                     strcpy(v->name, cmd->string);
                     var_list = v;
-                    return 0;
+                    return YES;
                 }
                 else 
                 {
                     v->string = malloc(sizeof(strlen(cmd->next->next->string) + 1));
                     strcpy(v->string,cmd->next->next->string + 1);
                     v->string[strlen(cmd->next->next->string) - 2] = '\0';
-                    return 0;
+                    return YES;
                 }       
             }           
             else
             {
-                return 1;
+                return NO;
             }
         }
         else 
         {
-            return 1;
+            return NO;
         }   
     }   
     else 
     {
-        return 1;
+        return NO;
     }
 }
 
 /*
-this function is used to implement "export var" command
 */
 
 
+/**
+ * @brief this function is used to implement "export var" command
+ *
+ * @param cmd The command being processed
+ *
+ * @return YES, if cmd is of form 'export var'; else NO
+ */
 int is_export(command_t cmd)
 {
-    if(!strcmp(cmd->string,"export")) 
+    if(!strcmp(cmd->string, "export")) 
     {
 
         if(command_length(cmd) != 2) 
         {
             printf("improper usage of export command\n");
-            return 0;
+            return YES;
         }
         else 
         {
             struct variable* v = search_variable(cmd->next->string);
-            if(v==NULL) 
+            if(v == NULL) 
             {
                 printf("no such variable\n");
             }
@@ -113,19 +130,25 @@ int is_export(command_t cmd)
                 }
             }       
         }
-        return 0;
+        return YES;
     }
     else 
     {
-        return 1;
+        return NO;
     }
 }
 
 
-/*
-this function then checks for occurences of the symbol $ in the copied command. If $ is found, then the string followinf $ is searched as a variable name. If a variable with the same name is found, then the $var is replaced with the value of var (number or string). Note that only external commands use this function.
-*/
-
+/**
+ * @brief This function checks for occurences of the symbol $ in the copied command. 
+ * If $ is found, then the string following $ is searched as a variable name. 
+ * If a variable with the same name is found, then the $var is replaced with the value of var. 
+ * Note that only external commands use this function.
+ *
+ * @param cmd_in The command being processed
+ *
+ * @return A new command with possibly substituted $var
+ */
 command_t resolve_cmd(command_t cmd_in)
 {
     extern struct variable* var_list;
@@ -155,11 +178,7 @@ command_t resolve_cmd(command_t cmd_in)
             }
         }
 
-        l=l->next;
+        l = l->next;
     }
     return cmd_in;
 }
-
-
-
-

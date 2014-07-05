@@ -24,7 +24,7 @@ int main(int argc,char** argv)
     
     if(argc==1) 
     {
-        display_prompt(current_dir);
+        display_prompt();
     }
     
     fflush(stdout);
@@ -59,7 +59,7 @@ int main(int argc,char** argv)
                 execute(cmd);
             }
             execute(cmd);           
-            display_prompt(current_dir);    
+            display_prompt();    
         }
     }   
     

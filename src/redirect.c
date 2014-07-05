@@ -4,7 +4,7 @@
 #include<sys/types.h>
 #include<fcntl.h>
 
-void is_redirect(command_t cmd,int* fd_in,int* fd_out,int *npipes ) 
+void is_redirect(command_t cmd, int* fd_in, int* fd_out, int *npipes) 
 {
 
 	struct arg* c = cmd;
@@ -17,7 +17,7 @@ void is_redirect(command_t cmd,int* fd_in,int* fd_out,int *npipes )
         {
 			if(c->next->next!=NULL)
             {
-				*fd_out = open(c->next->next->string,O_WRONLY|O_CREAT,0666);
+				*fd_out = open(c->next->next->string, O_WRONLY|O_CREAT, 0666);
 				if(flag==0) 
                 {
 					d = c;
@@ -29,13 +29,13 @@ void is_redirect(command_t cmd,int* fd_in,int* fd_out,int *npipes )
 				printf("kavach: syntax error\n");
 			}
 		}
-		if(!strcmp(c->next->string,"<")) 
+		if(!strcmp(c->next->string, "<")) 
         {
-			if(c->next->next!=NULL)
+			if(c->next->next != NULL)
             {
-				*fd_in = open(c->next->next->string,O_RDONLY|O_CREAT,0666);		
+				*fd_in = open(c->next->next->string, O_RDONLY|O_CREAT, 0666);		
 				
-                if(flag==0) 
+                if(flag == 0) 
                 {
 					d = c;
 					flag = 1;
@@ -47,11 +47,11 @@ void is_redirect(command_t cmd,int* fd_in,int* fd_out,int *npipes )
 		}
 		if(!strcmp(c->string,"|")) 
         {
-			*npipes = *npipes+1;
+			*npipes = *npipes + 1;
 		}
 		c = c->next;	
 	}
-	if(d!=NULL)
+	if(d != NULL)
     {
 		d->next = NULL;
 	}

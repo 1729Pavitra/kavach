@@ -8,45 +8,27 @@
 #include "variable.h"
 
 
-void print_command(command_t cmd) 
-{
-    struct arg* p = cmd;
-    while(p!=NULL) 
-    {
-        printf("%s ",p->string);
-        p=p->next;
-    }
-    printf("\n");
-    fflush(stdout);
-}
-
 
 int local_exec(command_t cmd,int fd_in,int fd_out)
 {
-
-
-    //printf("%s %d %d\n",cmd->string,fd_in,fd_out);
     fflush(stdout);
     int a = 0;
     char* program = malloc(strlen(cmd->string)+1);
     strcpy(program,cmd->string);
-
     pid_t pid;
-
     char* argv[100]={program,NULL};
-
     int i = 0;
     struct arg* p = cmd;
+
     while(p != NULL) 
     {
         char* argument = malloc(strlen(p->string)+1);
         strcpy(argument,p->string);
-
         argv[i] = argument;
         p = p->next;
         i++;
-    
     }
+
     argv[i] = NULL;
     if(cmd->string[0]=='/') 
     {
@@ -58,18 +40,18 @@ int local_exec(command_t cmd,int fd_in,int fd_out)
         }
         wait(&a);
     }
-    else if(cmd->string[0]=='~') {
+    else if(cmd->string[0] == '~') {
         pid = fork();
-        if(pid==0) 
+        if(pid == 0) 
         {
-            dup2(fd_in,0);
-            dup2(fd_out,1);
+            dup2(fd_in, 0);
+            dup2(fd_out, 1);
             char* home;
             char home_program[MAXLEN_STR];
             home = getenv("HOME");
-            strcpy(home_program,home);
-            strcat(home_program,program+1);
-            a = execv(home_program,argv);
+            strcpy(home_program, home);
+            strcat(home_program, program + 1);
+            a = execv(home_program, argv);
             exit(1);
         }
         wait(&a);
@@ -97,22 +79,19 @@ int local_exec(command_t cmd,int fd_in,int fd_out)
 
 int is_external(command_t cmd_in)
 {
-
     command_t cmd = resolve_cmd(cmd_in);
-
-    int fd_in=0;
-    int fd_out=1;
-    int npipes=0;
-    is_redirect(cmd,&fd_in,&fd_out,&npipes);
-
-    if(npipes==0) 
+    int fd_in = 0;
+    int fd_out = 1;
+    int npipes = 0;
+    is_redirect(cmd, &fd_in, &fd_out, &npipes);
+    if(npipes == 0) 
     {
-        int a = local_exec(cmd,fd_in,fd_out);
-        if(fd_in!=0) 
+        int a = local_exec(cmd, fd_in, fd_out);
+        if(fd_in != 0) 
         {
             close(fd_in);
         }
-        if(fd_out!=1) 
+        if(fd_out != 1) 
         {
             close(fd_out);
         }
@@ -121,48 +100,36 @@ int is_external(command_t cmd_in)
     }
     else 
     {
-
         command_t c[npipes+1];
-        c[0]=cmd;
-        int i=0;
-        int j=npipes;
-
-        
+        c[0] = cmd;
+        int i = 0;
+        int j = npipes;
         struct arg* p = cmd;
-        while(j!=0) 
+        while(j != 0) 
         {
-            if(p->next!=NULL)
+            if(p->next != NULL)
             {
-                if(!strcmp(p->next->string,"|")) 
+                if(!strcmp(p->next->string, "|")) 
                 {
-                    i=i+1;
-                    c[i]=p->next->next;
+                    i = i + 1;
+                    c[i] = p->next->next;
                     struct arg* q = p;
                     p = p->next->next;
-                    q->next=NULL;                               
-                    j = j-1;
+                    q->next = NULL;                               
+                    j = j - 1;
                 }
                 else{
-                    p=p->next;  
+                    p = p->next;  
                 }
             }
         }
-
-        /*
-        j=npipes;
-        while(j!=-1) {  
-        print_command(c[j]);
-        j=j-1;
-        }
-        */
-        
         int f[npipes][2];
-        int l=0;
-        while(l<npipes) 
+        int l = 0;
+        while(l < npipes) 
         {
             pipe(f[l]);
-            printf("%d %d\n",f[l][0],f[l][1]);
-            l=l+1;
+            printf("%d %d\n", f[l][0], f[l][1]);
+            l = l + 1;
         }
     }   
 }

@@ -7,5 +7,7 @@
 #define MAXCMDLEN 1024 //max length of command (input string)
 #define TRUE 1
 #define FALSE 0
+#define YES 0
+#define NO 1
 
 #endif

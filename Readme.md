@@ -24,3 +24,9 @@ $ sudo make uninstall
 ```
 
 ## Features
+
+Two modes of operation
+
+* interactive
+* executing a script
+

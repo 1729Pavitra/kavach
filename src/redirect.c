@@ -6,7 +6,6 @@
 
 void is_redirect(command_t cmd, int* fd_in, int* fd_out, int *npipes) 
 {
-
 	struct arg* c = cmd;
 	struct arg* d = NULL;
 	int flag = 0;

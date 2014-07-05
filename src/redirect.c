@@ -9,7 +9,6 @@ void is_redirect(command_t cmd, int* fd_in, int* fd_out, int *npipes)
 	struct arg* c = cmd;
 	struct arg* d = NULL;
 	int flag = 0;
-
 	while(c->next!=NULL) 
     {
 		if(!strcmp(c->next->string,">")) 
@@ -33,14 +32,14 @@ void is_redirect(command_t cmd, int* fd_in, int* fd_out, int *npipes)
 			if(c->next->next != NULL)
             {
 				*fd_in = open(c->next->next->string, O_RDONLY|O_CREAT, 0666);		
-				
                 if(flag == 0) 
                 {
 					d = c;
 					flag = 1;
 				}
 			}
-			else {
+			else 
+            {
 				printf("kavach: syntax error\n");
 			}
 		}

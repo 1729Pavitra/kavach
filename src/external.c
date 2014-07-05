@@ -9,17 +9,24 @@
 
 
 
-int local_exec(command_t cmd,int fd_in,int fd_out)
+/**
+ * @brief 
+ *
+ * @param cmd The command being processed
+ * @param fd_in The input file descriptor
+ * @param fd_out The output file descriptor
+ *
+ * @return 
+ */
+int local_exec(command_t cmd, int fd_in, int fd_out)
 {
     fflush(stdout);
-    int a = 0;
-    char* program = malloc(strlen(cmd->string)+1);
-    strcpy(program,cmd->string);
-    pid_t pid;
-    char* argv[100]={program,NULL};
-    int i = 0;
+    char* program = malloc(strlen(cmd->string) + 1);
+    strcpy(program, cmd->string);
+    char* argv[100]= {program, NULL};
     struct arg* p = cmd;
 
+    int i = 0;
     while(p != NULL) 
     {
         char* argument = malloc(strlen(p->string)+1);
@@ -30,15 +37,17 @@ int local_exec(command_t cmd,int fd_in,int fd_out)
     }
 
     argv[i] = NULL;
+    int error_value = 0;
+    pid_t pid;
     if(cmd->string[0]=='/') 
     {
         pid = fork();
-        if(pid==0) 
+        if(pid == 0) 
         {
-            a = execv(program,argv);
+            error_value = execv(program, argv);
             exit(1);
         }
-        wait(&a);
+        wait(&error_value);
     }
     else if(cmd->string[0] == '~') {
         pid = fork();
@@ -51,42 +60,45 @@ int local_exec(command_t cmd,int fd_in,int fd_out)
             home = getenv("HOME");
             strcpy(home_program, home);
             strcat(home_program, program + 1);
-            a = execv(home_program, argv);
+            error_value = execv(home_program, argv);
             exit(1);
         }
-        wait(&a);
+        wait(&error_value);
     }
     else
     {
         pid = fork();
-        if(pid==0) 
+        if(pid == 0) 
         {
-            dup2(fd_in,0);
-            dup2(fd_out,1);
-            a = execvp(program,argv);
+            dup2(fd_in, 0);
+            dup2(fd_out, 1);
+            error_value = execvp(program, argv);
             exit(1);
         }
-        wait(&a);
+        wait(&error_value);
     }
-    
-
-    return a;
-
-
-
+    return error_value;
 }
 
 
+/**
+ * @brief Attempts to execute a non-internal command
+ *
+ * @param cmd_in The command being processed
+ *
+ * @return ERROR in case of error, else returns YES
+ */
 int is_external(command_t cmd_in)
 {
-    command_t cmd = resolve_cmd(cmd_in);
     int fd_in = 0;
     int fd_out = 1;
     int npipes = 0;
+    command_t cmd = resolve_cmd(cmd_in);
     is_redirect(cmd, &fd_in, &fd_out, &npipes);
+
     if(npipes == 0) 
     {
-        int a = local_exec(cmd, fd_in, fd_out);
+        int error_value = local_exec(cmd, fd_in, fd_out);
         if(fd_in != 0) 
         {
             close(fd_in);
@@ -96,11 +108,11 @@ int is_external(command_t cmd_in)
             close(fd_out);
         }
         free_command(cmd);
-        return a;
+        return error_value;
     }
     else 
     {
-        command_t c[npipes+1];
+        command_t c[npipes + 1];
         c[0] = cmd;
         int i = 0;
         int j = npipes;
@@ -118,7 +130,8 @@ int is_external(command_t cmd_in)
                     q->next = NULL;                               
                     j = j - 1;
                 }
-                else{
+                else
+                {
                     p = p->next;  
                 }
             }
